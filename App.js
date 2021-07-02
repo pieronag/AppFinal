@@ -13,8 +13,30 @@ import {
 
 import Header from './components/Header';
 
+import * as Font from 'expo-font';
+import {AppLoading} from 'expo';
+
+const fetchFonts = () => {
+  Font.loadAsync({
+    'quicksand': require('./assets/fonts/Quicksand-Medium.ttf'),
+    'two-is-better': require('./assets/fonts/KGTwoisBetterThanOne.ttf'),
+  })
+}
+
 export default function App() {
   
+  const [dataLoaded, setDataLoaded] = useState(false);
+
+  if(!dataLoaded){
+    return(
+      <AppLoading
+        startASync={fetchFonts}
+        onFinish={() => setDataLoaded(true)}
+        onError={(err) => console.log(err)}
+      />
+    )
+  }
+
   const [inputText, setInputText] = useState('');
   const [inputError, setInputError] = useState('');
   const [itemList, setItemList] = useState([]);
@@ -154,6 +176,7 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     width: 230,
     fontSize: 15,
+    fontFamily:'quicksand',
   },
   inputError: {
     color: 'red',
